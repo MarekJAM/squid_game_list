@@ -1,31 +1,41 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'bloc/blocs.dart';
+import 'data/repositories/repositories.dart';
+import 'ui/main_screen.dart';
+
 void main() {
-  runApp(const MyApp());
+  if (kDebugMode) {
+    Bloc.observer = SimpleBlocObserver();
+  }
+
+  final playersRepository = PlayersRepository(playersDataClient: PlayersLocalAssetClient());
+
+  runApp(App(
+    playersRepository: playersRepository,
+  ));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class App extends StatelessWidget {
+  final PlayersRepository playersRepository;
+
+  const App({Key? key, required this.playersRepository}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Squid Game List',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        brightness: Brightness.dark,
       ),
-      home: const MainScreen(),
+      home: BlocProvider<PlayersCubit>(
+        create: (context) => PlayersCubit(playersRepository: playersRepository)..loadPlayers(),
+        child: const MainScreen(),
+      ),
     );
   }
 }
 
-class MainScreen extends StatelessWidget {
-  const MainScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(),
-    );
-  }
-}
