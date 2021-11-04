@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import '../data/models/player.dart';
 
 class DetailsScreen extends StatelessWidget {
@@ -35,12 +37,12 @@ class DetailsScreen extends StatelessWidget {
               ),
             ),
             ColumnTextItem(
-              label: "Name",
+              label: AppLocalizations.of(context)!.nameLabel,
               content: player.name,
             ),
             ColumnTextItem(
-              label: "Description",
-              content: player.description ?? "This player has no description.",
+              label: AppLocalizations.of(context)!.descriptionLabel,
+              content: player.description ?? AppLocalizations.of(context)!.noDescription,
             ),
           ],
         ),
