@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'details_screen.dart';
 import '../bloc/blocs.dart';
 
 class MainScreen extends StatelessWidget {
@@ -27,24 +28,40 @@ class MainScreen extends StatelessWidget {
                 itemCount: state.players.length,
                 itemBuilder: (context, index) {
                   var player = state.players[index];
-                  return ListTile(
-                    leading: SizedBox(
-                      height: 50,
-                      width: 50,
-                      child: player.pictureUrl != null
-                          ? Image.network(
-                              player.pictureUrl!,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) => Container(
-                                color: Colors.grey,
-                              ),
-                            )
-                          : Container(
-                              color: Colors.grey,
-                            ),
-                    ),
-                    title: Text(
-                      player.name,
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => DetailsScreen(
+                            player: player,
+                          ),
+                        ),
+                      );
+                    },
+                    child: Card(
+                      child: ListTile(
+                        leading: SizedBox(
+                          height: 50,
+                          width: 50,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child: player.pictureUrl != null
+                                ? Image.network(
+                                    player.pictureUrl!,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) => Container(
+                                      color: Colors.grey,
+                                    ),
+                                  )
+                                : Container(
+                                    color: Colors.grey,
+                                  ),
+                          ),
+                        ),
+                        title: Text(
+                          player.name,
+                        ),
+                      ),
                     ),
                   );
                 },
