@@ -7,9 +7,15 @@ import '../models/player.dart';
 import 'players_data_client.dart';
 
 class PlayersLocalAssetClient implements PlayersDataClient {
+  late AssetBundle _bundle;
+
+  PlayersLocalAssetClient({AssetBundle? bundle}) {
+    _bundle = bundle ?? rootBundle;
+  }
+
   @override
-  Future<List<Player>> getPlayers() async {
-    final String response = await rootBundle.loadString(AssetPaths.playersJson);
+  Future<List<Player>> getPlayers({String assetPath = AssetPaths.playersJson}) async {
+    final String response = await _bundle.loadString(assetPath);
     final data = await json.decode(response);
 
     final players = <Player>[];
