@@ -1,7 +1,11 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../bloc/players/players_cubit.dart';
 import '../data/models/player.dart';
 
 class DetailsScreen extends StatelessWidget {
@@ -12,7 +16,26 @@ class DetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          if (!player.isEliminated)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    Colors.red,
+                  ),
+                ),
+                onPressed: () {
+                  BlocProvider.of<PlayersCubit>(context).eliminatePlayer(player);
+                  Navigator.of(context).pop();
+                },
+                child: const Text("Eliminate player"),
+              ),
+            )
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Column(
@@ -21,19 +44,37 @@ class DetailsScreen extends StatelessWidget {
               padding: const EdgeInsets.only(top: 8),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
-                child: player.pictureUrl != null
-                    ? Image.network(
-                        player.pictureUrl!,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) => Container(
-                          color: Colors.grey,
-                          height: 300,
+                child: Stack(
+                  alignment: AlignmentDirectional.center,
+                  children: [
+                    Opacity(
+                      opacity: player.isEliminated ? 0.3 : 1,
+                      child: player.pictureUrl != null
+                          ? Image.network(
+                              player.pictureUrl!,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) => Container(
+                                color: Colors.grey,
+                                height: 300,
+                              ),
+                            )
+                          : Container(
+                              height: 300,
+                              color: Colors.grey,
+                            ),
+                    ),
+                    if (player.isEliminated)
+                      Transform.rotate(
+                        angle: math.pi / 6,
+                        child: const Center(
+                          child: Text(
+                            "Eliminated",
+                            style: TextStyle(color: Colors.red, fontSize: 30, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       )
-                    : Container(
-                        height: 300,
-                        color: Colors.grey,
-                      ),
+                  ],
+                ),
               ),
             ),
             ColumnTextItem(

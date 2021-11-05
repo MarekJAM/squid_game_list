@@ -18,11 +18,29 @@ class PlayersCubit extends Cubit<PlayersState> {
 
     try {
       var players = await playersRepository.getPlayers();
-      
+
       emit(PlayersLoaded(players: players));
     } catch (e) {
       debugPrint(e.toString());
       emit(PlayersError("Something went wrong."));
+    }
+  }
+
+  void eliminatePlayer(Player player) {
+    if (state is PlayersLoaded) {
+      (state as PlayersLoaded).players.firstWhere((el) => el.id == player.id).isEliminated = true;
+
+      emit(PlayersLoaded(players: (state as PlayersLoaded).players));
+    }
+  }
+
+  void reset() {
+    if (state is PlayersLoaded) {
+      for (var el in (state as PlayersLoaded).players) {
+        el.isEliminated = false;
+      }
+
+      emit(PlayersLoaded(players: (state as PlayersLoaded).players));
     }
   }
 }

@@ -3,12 +3,14 @@ class Player {
   final String name;
   final String? description;
   final String? pictureUrl;
+  bool isEliminated;
 
-  const Player({
+  Player({
     required this.id,
     required this.name,
     required this.description,
     required this.pictureUrl,
+    this.isEliminated = false,
   });
 
   factory Player.fromJson(Map<String, dynamic> json) => Player(

@@ -28,21 +28,21 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Squid Game List',
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        AppLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      theme: ThemeData(
-        brightness: Brightness.dark,
-      ),
-      home: BlocProvider<PlayersCubit>(
-        create: (context) => PlayersCubit(playersRepository: playersRepository)..loadPlayers(),
-        child: const MainScreen(),
+    return BlocProvider<PlayersCubit>(
+      create: (context) => PlayersCubit(playersRepository: playersRepository)..loadPlayers(),
+      child: MaterialApp(
+        title: 'Squid Game List',
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          AppLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.supportedLocales,
+        theme: ThemeData(
+          brightness: Brightness.dark,
+        ),
+        home: const MainScreen(),
       ),
     );
   }

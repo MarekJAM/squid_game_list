@@ -45,21 +45,31 @@ class MainScreen extends StatelessWidget {
                           width: 50,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(5),
-                            child: player.pictureUrl != null
-                                ? Image.network(
-                                    player.pictureUrl!,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) => Container(
-                                      color: Colors.grey,
-                                    ),
-                                  )
-                                : Container(
-                                    color: Colors.grey,
+                            child: Stack(
+                              fit: StackFit.expand,
+                              children: [
+                                player.pictureUrl != null
+                                    ? Image.network(
+                                        player.pictureUrl!,
+                                        fit: BoxFit.cover,
+                                        errorBuilder: (context, error, stackTrace) => Container(
+                                          color: Colors.grey,
+                                        ),
+                                      )
+                                    : Container(
+                                        color: Colors.grey,
+                                      ),
+                                if (player.isEliminated)
+                                  Container(
+                                    color: Colors.grey[700]!.withOpacity(0.7),
                                   ),
+                              ],
+                            ),
                           ),
                         ),
                         title: Text(
                           player.name,
+                          style: TextStyle(color: player.isEliminated ? Colors.grey : Colors.white),
                         ),
                       ),
                     ),
@@ -83,6 +93,13 @@ class MainScreen extends StatelessWidget {
             );
           },
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          BlocProvider.of<PlayersCubit>(context).reset();
+        },
+        icon: const Icon(Icons.restart_alt),
+        label: const Text("Reset"),
       ),
     );
   }
