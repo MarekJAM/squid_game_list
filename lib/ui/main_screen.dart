@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'details_screen.dart';
 import '../bloc/blocs.dart';
+import '../configurable/keys.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -26,6 +27,7 @@ class MainScreen extends StatelessWidget {
                 );
               }
               return ListView.builder(
+                key: Keys.listPlayers,
                 itemCount: state.players.length,
                 itemBuilder: (context, index) {
                   var player = state.players[index];
@@ -96,6 +98,7 @@ class MainScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
+        key: Keys.btnReset,
         onPressed: () {
           BlocProvider.of<PlayersCubit>(context).reset();
         },

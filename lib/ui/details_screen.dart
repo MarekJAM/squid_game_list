@@ -7,6 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../bloc/players/players_cubit.dart';
 import '../data/models/player.dart';
+import '../configurable/keys.dart';
 
 class DetailsScreen extends StatelessWidget {
   final Player player;
@@ -22,6 +23,7 @@ class DetailsScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
+                key: Keys.btnEliminate,
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
                     Colors.red,
