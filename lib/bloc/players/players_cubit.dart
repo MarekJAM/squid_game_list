@@ -26,19 +26,25 @@ class PlayersCubit extends Cubit<PlayersState> {
     }
   }
 
-  void eliminatePlayer(Player player) {
+  void eliminatePlayer(Player player) async {
     if (state is PlayersLoaded) {
-      (state as PlayersLoaded).players.firstWhere((el) => el.id == player.id).isEliminated = true;
+      var players = (state as PlayersLoaded).players;
+
+      players.firstWhere((el) => el.id == player.id).isEliminated = true;
+
+      await playersRepository.saveEliminatedPlayersIds(players.where((e) => e.isEliminated).map((e) => e.id).toList());
 
       emit(PlayersLoaded(players: (state as PlayersLoaded).players));
     }
   }
 
-  void reset() {
+  void reset() async {
     if (state is PlayersLoaded) {
       for (var el in (state as PlayersLoaded).players) {
         el.isEliminated = false;
       }
+
+      await playersRepository.clearEliminatedPlayersIds();
 
       emit(PlayersLoaded(players: (state as PlayersLoaded).players));
     }

@@ -4,17 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'bloc/blocs.dart';
 import 'data/repositories/repositories.dart';
 import 'ui/main_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   if (kDebugMode) {
     Bloc.observer = SimpleBlocObserver();
   }
 
-  final playersRepository = PlayersRepository(playersDataClient: PlayersLocalAssetClient());
+  var prefs = await SharedPreferences.getInstance();
+
+  final playersRepository = PlayersRepository(
+    playersDataClient: PlayersLocalAssetClient(),
+    playersStorage: PlayersStorageSharedPrefs(prefs),
+  );
 
   runApp(App(
     playersRepository: playersRepository,
