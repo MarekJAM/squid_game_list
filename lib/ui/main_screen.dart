@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'details_screen.dart';
 import '../bloc/blocs.dart';
@@ -20,8 +21,8 @@ class MainScreen extends StatelessWidget {
               );
             } else if (state is PlayersLoaded) {
               if (state.players.isEmpty) {
-                return const Center(
-                  child: Text('Players list is empty.'),
+                return Center(
+                  child: Text(AppLocalizations.of(context)!.playerListEmpty),
                 );
               }
               return ListView.builder(
@@ -81,12 +82,12 @@ class MainScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Could not get list of players."),
+                  Text(AppLocalizations.of(context)!.playersLoadingError),
                   OutlinedButton(
                     onPressed: () {
                       BlocProvider.of<PlayersCubit>(context).loadPlayers();
                     },
-                    child: const Text('Retry'),
+                    child: Text(AppLocalizations.of(context)!.retry),
                   )
                 ],
               ),
@@ -99,7 +100,7 @@ class MainScreen extends StatelessWidget {
           BlocProvider.of<PlayersCubit>(context).reset();
         },
         icon: const Icon(Icons.restart_alt),
-        label: const Text("Reset"),
+        label: Text(AppLocalizations.of(context)!.reset),
       ),
     );
   }

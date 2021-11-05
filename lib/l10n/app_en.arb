@@ -1,5 +1,11 @@
 {
     "nameLabel": "Name",
     "descriptionLabel": "Description",
-    "noDescription": "This player has no description."
+    "noDescription": "This player has no description.",
+    "eliminatePlayer": "Eliminate player",
+    "eliminated": "Eliminated",
+    "playerListEmpty": "Player list is empty.",
+    "playersLoadingError": "Could not get list of players.",
+    "retry": "Retry",
+    "reset": "Reset"
 }

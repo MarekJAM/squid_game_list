@@ -1,5 +1,11 @@
 {
     "nameLabel": "Imię i Nazwisko",
     "descriptionLabel": "Opis",
-    "noDescription": "Ten gracz nie ma opisu."
+    "noDescription": "Ten gracz nie ma opisu.",
+    "eliminatePlayer": "Wyeliminuj gracza",
+    "eliminated": "Wyeliminowany",
+    "playerListEmpty": "Lista graczy jest pusta.",
+    "playersLoadingError": "Nie udało się pobrać listy graczy.",
+    "retry": "Ponów próbę",
+    "reset": "Zresetuj"
 }

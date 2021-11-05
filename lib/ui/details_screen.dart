@@ -31,7 +31,7 @@ class DetailsScreen extends StatelessWidget {
                   BlocProvider.of<PlayersCubit>(context).eliminatePlayer(player);
                   Navigator.of(context).pop();
                 },
-                child: const Text("Eliminate player"),
+                child: Text(AppLocalizations.of(context)!.eliminatePlayer),
               ),
             )
         ],
@@ -66,10 +66,10 @@ class DetailsScreen extends StatelessWidget {
                     if (player.isEliminated)
                       Transform.rotate(
                         angle: math.pi / 6,
-                        child: const Center(
+                        child: Center(
                           child: Text(
-                            "Eliminated",
-                            style: TextStyle(color: Colors.red, fontSize: 30, fontWeight: FontWeight.bold),
+                            AppLocalizations.of(context)!.eliminated,
+                            style: const TextStyle(color: Colors.red, fontSize: 30, fontWeight: FontWeight.bold),
                           ),
                         ),
                       )
